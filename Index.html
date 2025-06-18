@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>Cute Love Messages</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Open+Sans:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            html, body {
+                width: 100%;
+                height: 100%;
+                overflow-x: hidden;
+            }
+
+            body {
+                font-family: "Open Sans", sans-serif;
+                background: linear-gradient(135deg, #fff0f6, #fcefee);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                position: relative;
+                padding: 20px;
+                -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+            }
+
+            .main-container {
+                width: 100%;
+                max-width: 1000px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+            }
+
+            .view {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+                margin-bottom: 40px;
+                min-height: auto; /* Changed from fixed height */
+            }
+
+            .view.hidden {
+                display: none;
+            }
+
+            /* Card View Styles */
+            .memo-card {
+                background-color: white;
+                width: 100%;
+                max-width: 500px;
+                padding: 35px;
+                border-radius: 30px;
+                border: 2px dashed #ffb3c1;
+                box-shadow: 0 15px 40px rgba(255, 105, 180, 0.2);
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+                z-index: 10;
+            }
+
+            /* ... (keep all your existing styles the same) ... */
+
+            /* Mobile-specific fixes */
+            @media (max-width: 600px) {
+                body {
+                    padding: 15px;
+                    height: auto;
+                    overflow-y: auto;
+                }
+
+                .view {
+                    padding: 15px;
+                    margin-bottom: 30px;
+                }
+
+                .memo-card {
+                    padding: 25px;
+                }
+
+                .sub-message {
+                    font-size: 1.1rem;
+                    padding: 15px;
+                }
+
+                /* Prevent horizontal scrolling */
+                html, body {
+                    overflow-x: hidden;
+                    position: relative;
+                }
+                
+                /* Fix for iOS viewport */
+                @supports (-webkit-touch-callout: none) {
+                    body {
+                        height: -webkit-fill-available;
+                    }
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Audio Element -->
+        <audio id="bgMusic" loop>
+            <source src="nasheed.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        
+        <!-- Mute Button -->
+        <div class="mute-btn" id="muteBtn">
+            <i class="fas fa-volume-up"></i>
+        </div>
+        
+        <!-- Progress bar -->
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <!-- Floating hearts -->
+        <div class="floating-hearts" id="hearts-container"></div>
+
+        <div class="main-container">
+            <!-- Card View -->
+            <div id="card-view" class="view">
+                <div class="memo-card">
+                    <!-- ... your card content ... -->
+                </div>
+            </div>
+
+            <!-- Screenshot View -->
+            <div id="screenshot-view" class="view hidden">
+                <div class="screenshot-container">
+                    <!-- ... your screenshot content ... -->
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // ... (keep all your existing JavaScript the same) ...
+
+            // Modified showCardView and showScreenshotView functions for mobile
+            function showCardView() {
+                screenshotView.classList.add("hidden");
+                cardView.classList.remove("hidden");
+                updateCard();
+                updateProgressBar();
+                // Mobile-friendly scroll
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: cardView.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }, 50);
+            }
+
+            function showScreenshotView() {
+                updateScreenshot();
+                cardView.classList.add("hidden");
+                screenshotView.classList.remove("hidden");
+                updateProgressBar();
+                // Mobile-friendly scroll
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: screenshotView.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }, 50);
+            }
+
+            // Add touch event listeners for mobile
+            document.addEventListener('touchmove', function(e) {
+                // Allow native scrolling
+            }, { passive: true });
+
+            // Initialize with proper mobile viewport height
+            function setMobileViewport() {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }
+
+            setMobileViewport();
+            window.addEventListener('resize', setMobileViewport);
+        </script>
+    </body>
+</html>
